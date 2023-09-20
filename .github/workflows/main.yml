@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check_format:
+    name: Enforce Prettier formatting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Check Prettier
+      uses: creyD/prettier_action@v4.3
+      with: 
+        dry: True
+        prettier_options: "--check"
+      
+      
