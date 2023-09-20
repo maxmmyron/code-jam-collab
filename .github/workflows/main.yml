@@ -1,23 +1,16 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-      - main
+  pull_request
 
 jobs:
-  check_format:
+  enforce_format:
     name: Enforce Prettier formatting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
+    - uses: actions/checkout@v3
     - name: Check Prettier
       uses: creyD/prettier_action@v4.3
       with:
         dry: True
         prettier_options: "--check {**/*,*}.{js,ts,html,json,md,yml,css,scss,tsx,jsx}"
-        branch: "${{ github.head_ref }}"
-        file_pattern: "."
-
-
