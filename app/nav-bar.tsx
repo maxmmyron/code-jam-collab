@@ -19,16 +19,16 @@ const Nav = () => {
                 title: "Projects",
               },
               {
-                route: "/api/auth/signout",
-                title: "Logout",
-              },
-              {
                 route: "#",
                 title: "Profile",
               },
               {
                 route: "#",
                 title: "Settings",
+              },
+              {
+                route: "/api/auth/signout",
+                title: "Logout",
               },
             ]}
           />
