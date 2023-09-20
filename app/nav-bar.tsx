@@ -1,6 +1,7 @@
-import React from 'react'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import React from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import LinkDropdown from "./components/LinkDropdown";
 
 const Nav = () => {
   const { data: session, status } = useSession();
@@ -8,24 +9,37 @@ const Nav = () => {
     <nav className="flex justify-between mt-8 px-6 pb-6 border-b-2 black border-black">
       <h1 className="text-2xl">CodeJam</h1>
       <div>
-        {status === "authenticated" && <span className="text-sm">{session?.user?.email}</span>}
-        <Link href="#" className="text-xl m-4">
-          Projects
-        </Link>
-        {status === "authenticated" ? 
-          (
-            <React.Fragment>
-              <Link href="/api/auth/signout" className="text-xl m-4">
-                Logout
-              </Link>
-            </React.Fragment>
-          ) :
+        {status === "authenticated" ? (
+          // If the status is authenticated we can assume the session is not null and a username exists.
+          <LinkDropdown
+            title={session?.user?.name as string}
+            routes={[
+              {
+                route: "#",
+                title: "Projects",
+              },
+              {
+                route: "/api/auth/signout",
+                title: "Logout",
+              },
+              {
+                route: "#",
+                title: "Profile",
+              },
+              {
+                route: "#",
+                title: "Settings",
+              },
+            ]}
+          />
+        ) : (
           <Link href="/api/auth/signin" className="text-xl m-4">
             Login
-          </Link> }
+          </Link>
+        )}
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
