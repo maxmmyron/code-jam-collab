@@ -1,6 +1,7 @@
 "use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Nav from "./nav-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,12 @@ export interface AuthContextProps {
 export default function AuthContext({ children }: AuthContextProps) {
   return (
     <html>
-      <body>
-        <SessionProvider>{children}</SessionProvider>
-      </body>
+      <SessionProvider>
+        <body className="mx-16">
+          <Nav />
+          {children}
+        </body>
+      </SessionProvider>
     </html>
   );
 }
