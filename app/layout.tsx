@@ -1,22 +1,22 @@
+'use client'
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "CodeJam",
-  description: "Making finding projectmates easier",
-};
+import {SessionProvider} from 'next-auth/react'
+import {ReactNode} from 'react'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
+export interface AuthContextProps {
+    children: ReactNode;
+}
+
+export default function AuthContext({children}: AuthContextProps) {
+    return (
+      <html>
+        <body>
+          <SessionProvider>{children}</SessionProvider>
+        </body>
+      </html>
+    )
 }
