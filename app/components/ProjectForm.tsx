@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 import prisma from '../../lib/prisma';
 import { Session } from 'next-auth';
 
@@ -9,15 +9,25 @@ const ProjectForm = (session: Session) => {
     let formData = new FormData(event.currentTarget);
 
     if (!formData.get("name") || !formData.get("description")) return;
+    if(!session.user || !session.user.email) return;
 
+    const user = await prisma.user.findUnique({
+      where: {
+        email: session.user.email,
+      },
+    });
+
+    // FIXME: fix error checking
+    if(!user) return;
+
+    // TODO: update in try/catch
     await prisma.project.create({
       data: {
         name: formData.get("name") as string,
         description: formData.get("description") as string,
+        ownerId: user.id as string,
       }
     });
-
-    await prisma.project
   };
 
   return (
@@ -33,8 +43,6 @@ const ProjectForm = (session: Session) => {
       </label>
 
       <button type="submit">Create Project</button>
-
-      <p>{loading ? 'Loading...' : ''}</p>
     </form>
   )
 }
