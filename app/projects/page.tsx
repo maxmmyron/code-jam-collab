@@ -27,7 +27,7 @@ export default async function ProjectIndex() {
           return <Project key={project.id} project={project} />
         })}
       </div>
-      {/* <ProjectForm /> */}
+      {session && <ProjectForm {...session} />}
     </div>
   )
 }

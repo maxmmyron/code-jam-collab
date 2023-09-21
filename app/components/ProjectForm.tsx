@@ -1,23 +1,23 @@
-'use client'
-
 import React, { FormEvent, useState } from 'react'
+import prisma from '../../lib/prisma';
+import { Session } from 'next-auth';
 
-const ProjectForm = () => {
-  const [loading, setLoading] = useState(false);
-
+const ProjectForm = (session: Session) => {
   const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
 
-    const formData = new FormData(event.currentTarget);
+    let formData = new FormData(event.currentTarget);
 
-    const res = await fetch('/api/v1/projects', {
-      body: formData,
-      method: 'POST',
-    })
+    if (!formData.get("name") || !formData.get("description")) return;
 
-    const data = await res.json();
-    setLoading(false);
+    await prisma.project.create({
+      data: {
+        name: formData.get("name") as string,
+        description: formData.get("description") as string,
+      }
+    });
+
+    await prisma.project
   };
 
   return (
