@@ -1,21 +1,26 @@
-'use client'
-
-import React from 'react'
 import Project from '../components/Project'
+import prisma from '../../lib/prisma'
+import authOptions from '../api/auth/[...nextauth]/options'
+import { getServerSession } from 'next-auth'
 
-async function getProjects() {
-  const res = await fetch('http://localhost:3000/api/v1/projects', {
-    method: "GET"
+async function getProjects(session) {
+  const projects = await prisma.project.findMany({
+    where: {
+      owner: session?.user
+    },
+    orderBy: {
+      id: "asc"
+    }
   })
-  const data = await res.json()
-  return data?.projects as any[]
+  return projects
 }
 
-const ProjectIndex = async () => {
-  const projects =  await getProjects()
+export default async function ProjectIndex() {
+  const session = await getServerSession(authOptions)
+  const projects = await getProjects(session)
   return (
     <div className="mt-24">
-      <h1 className="ml-8 mt-8 text-2xl">Projects</h1>
+      <h1 className="ml-8 mt-8 text-4xl">Projects</h1>
       <div className="flex justify-between mt-8">
         {projects?.map((project) => {
           return <Project key={project.id} project={project} />
@@ -24,5 +29,3 @@ const ProjectIndex = async () => {
     </div>
   )
 }
-
-export default ProjectIndex

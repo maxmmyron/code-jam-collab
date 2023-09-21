@@ -1,5 +1,5 @@
 // shamelessly copied from https://tailwindui.com/components/application-ui/elements/dropdowns
-
+'use client'
 import Link from "next/link";
 import { useState } from "react";
 
