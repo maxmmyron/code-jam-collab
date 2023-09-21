@@ -13,13 +13,14 @@ async function getProjects() {
 
 const ProjectIndex = async () => {
   const projects =  await getProjects()
-
   return (
-    <div>
-      <h1 className="mt-8 text-2xl">Projects</h1>
-      {projects?.map((project) => {
-        return <Project key={project.id} project={project} />
-      })}
+    <div className="mt-24">
+      <h1 className="ml-8 mt-8 text-2xl">Projects</h1>
+      <div className="flex justify-between mt-8">
+        {projects?.map((project) => {
+          return <Project key={project.id} project={project} />
+        })}
+      </div>
     </div>
   )
 }
