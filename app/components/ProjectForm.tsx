@@ -1,59 +1,30 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import prisma from "../../lib/prisma";
 import { Session } from "next-auth";
 
 const ProjectForm = (session: Session) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    //TODO Add try catch
-    await fetch("http://localhost:3000/api/v1/projects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        formData,
-      }),
-    });
+
+    const formData = new FormData(event.currentTarget);
+
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/projects", {
+        method: "POST",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
-    <form onSubmit={handleProjectSubmission}>
-      <label>
-        Project Name
-        <input
-          onChange={handleInputChange}
-          value={formData.name}
-          type="text"
-          name="name"
-        />
-      </label>
+    <form onSubmit={handleProjectSubmission} className="flex flex-col gap-2">
+      <input type="text" name="name" placeholder="New Project" className="border px-2 py-1 rounded-md" />
+      <textarea name="description" placeholder="Project Description" className="border px-2 py-1 rounded-md" />
 
-      <label>
-        Project Description
-        <textarea
-          onChange={handleInputChange}
-          value={formData.description}
-          name="description"
-        />
-      </label>
-
-      <button type="submit">Create Project</button>
+      <button type="submit" className="border bg-black px-3 py-2 rounded-md w-fit text-white">Create Project</button>
     </form>
   );
 };
