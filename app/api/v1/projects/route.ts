@@ -12,12 +12,17 @@ export async function POST(request: Request) {
     return NextResponse.redirect('/api/auth/signin');
   }
 
-  await prisma.project.create({
-    data: {
-      name: name,
-      description: description,
-      owner: { connect: { email: session?.user?.email as string }}
-    }
-  });
-  return NextResponse.json({hello: 'world'})
+  try {
+    const project = await prisma.project.create({
+      data: {
+        name: name,
+        description: description,
+        owner: { connect: { email: session?.user?.email as string }}
+      }
+    });
+
+    return NextResponse.json({id: project.id}, {status: 201})
+  } catch (e) {
+    return NextResponse.error();
+  }
 }
