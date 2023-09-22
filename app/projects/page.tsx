@@ -2,6 +2,7 @@ import Project from '../components/Project'
 import prisma from '../../lib/prisma'
 import authOptions from '../api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth'
+import ProjectForm from '../components/ProjectForm'
 
 async function getProjects(session) {
   const projects = await prisma.project.findMany({
@@ -26,6 +27,7 @@ export default async function ProjectIndex() {
           return <Project key={project.id} project={project} />
         })}
       </div>
+      {session && <ProjectForm {...session} />}
     </div>
   )
 }
