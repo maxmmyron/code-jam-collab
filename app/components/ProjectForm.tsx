@@ -1,32 +1,34 @@
-import { FormEvent } from 'react'
-import prisma from '../../lib/prisma';
-import { Session } from 'next-auth';
+"use client";
+
+import { FormEvent, useState } from "react";
+import prisma from "../../lib/prisma";
+import { Session } from "next-auth";
 
 const ProjectForm = (session: Session) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let formData = new FormData(event.currentTarget);
-
-    if (!formData.get("name") || !formData.get("description")) return;
-    if(!session.user || !session.user.email) return;
-
-    const user = await prisma.user.findUnique({
-      where: {
-        email: session.user.email,
+    //TODO Add try catch
+    await fetch("http://localhost:3000/api/v1/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    });
-
-    // FIXME: fix error checking
-    if(!user) return;
-
-    // TODO: update in try/catch
-    await prisma.project.create({
-      data: {
-        name: formData.get("name") as string,
-        description: formData.get("description") as string,
-        ownerId: user.id as string,
-      }
+      body: JSON.stringify({
+        formData,
+      }),
     });
   };
 
@@ -34,17 +36,26 @@ const ProjectForm = (session: Session) => {
     <form onSubmit={handleProjectSubmission}>
       <label>
         Project Name
-        <input type="text" name="name" />
+        <input
+          onChange={handleInputChange}
+          value={formData.name}
+          type="text"
+          name="name"
+        />
       </label>
 
       <label>
         Project Description
-        <textarea name="description" />
+        <textarea
+          onChange={handleInputChange}
+          value={formData.description}
+          name="description"
+        />
       </label>
 
       <button type="submit">Create Project</button>
     </form>
-  )
-}
+  );
+};
 
-export default ProjectForm
+export default ProjectForm;
