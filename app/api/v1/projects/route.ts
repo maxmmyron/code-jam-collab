@@ -5,8 +5,8 @@ import authOptions from "../../auth/[...nextauth]/options";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
-  const body = await request.json()
-  const { name, description } = body.formData
+  const body = await request.json();
+  const { name, description } = body;
 
   if(!session) {
     return NextResponse.redirect('/api/auth/signin');
@@ -23,6 +23,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({id: project.id}, {status: 201})
   } catch (e) {
-    return NextResponse.error();
+    return NextResponse.json({error: e.message}, {status: 500})
   }
 }
