@@ -21,10 +21,24 @@ const ProjectForm = (session: Session) => {
 
   return (
     <form onSubmit={handleProjectSubmission} className="flex flex-col gap-2">
-      <input type="text" name="name" placeholder="New Project" className="border px-2 py-1 rounded-md" />
-      <textarea name="description" placeholder="Project Description" className="border px-2 py-1 rounded-md" />
+      <input
+        type="text"
+        name="name"
+        placeholder="New Project"
+        className="border px-2 py-1 rounded-md"
+      />
+      <textarea
+        name="description"
+        placeholder="Project Description"
+        className="border px-2 py-1 rounded-md"
+      />
 
-      <button type="submit" className="border bg-black px-3 py-2 rounded-md w-fit text-white">Create Project</button>
+      <button
+        type="submit"
+        className="border bg-black px-3 py-2 rounded-md w-fit text-white"
+      >
+        Create Project
+      </button>
     </form>
   );
 };

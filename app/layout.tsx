@@ -7,13 +7,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Code Jam",
-  description: "Goated Website"
-}
+  description: "Goated Website",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -24,5 +24,5 @@ export default function RootLayout({
         </NextAuthSessionProvider>
       </body>
     </html>
-  )
+  );
 }
