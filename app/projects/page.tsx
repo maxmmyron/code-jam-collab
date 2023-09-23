@@ -16,7 +16,7 @@ async function getProjects(session) {
   return projects;
 }
 
-export default async function ProjectIndex() {
+const ProjectIndex = async () => {
   const session = await getServerSession(authOptions);
   const projects = await getProjects(session);
   return (
@@ -30,4 +30,6 @@ export default async function ProjectIndex() {
       {session && <ProjectForm {...session} />}
     </div>
   );
-}
+};
+
+export default ProjectIndex;
