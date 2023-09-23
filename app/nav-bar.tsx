@@ -18,7 +18,7 @@ const Nav = () => {
             title={session?.user?.name as string}
             routes={[
               {
-                route: "projects",
+                route: "/projects",
                 title: "Projects",
               },
               {
