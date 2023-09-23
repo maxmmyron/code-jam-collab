@@ -49,7 +49,7 @@ const LinkDropdown = ({
             <div className="py-1" role="none">
               {routes.map(({ route, title }) => (
                 <Link
-                  href={route}
+                  href={`/${route}`}
                   className="text-gray-700 block px-4 py-2 text-sm"
                   role="menuitem"
                   id="menu-item-0"
