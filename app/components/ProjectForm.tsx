@@ -2,8 +2,10 @@
 
 import { FormEvent, useRef, useState } from "react";
 import { Session } from "next-auth";
+import { useRouter } from "next/navigation";
 
 const ProjectForm = (session: Session) => {
+  const router = useRouter();
   const form = useRef<HTMLFormElement>(null);
 
   const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
@@ -13,13 +15,19 @@ const ProjectForm = (session: Session) => {
     const formData = new FormData(event.currentTarget);
 
     try {
-      const res = await fetch("http://localhost:3000/api/v1/projects", {
+      const res = await fetch("/api/v1/projects", {
         method: "POST",
         body: JSON.stringify(Object.fromEntries(formData)),
       });
 
+      // if result is OK, then reset form and refresh page
       if(res.ok) {
+        // FIXME: two courses of action here:
+        // 1. reset form and use progressive enhancement to display the project returned from the fetch
+        // 2. refresh page and just rerender
+
         form.current.reset();
+        router.refresh();
       }
     } catch (e) {
       console.error(e);
