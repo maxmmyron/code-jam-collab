@@ -1,12 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Session } from "next-auth";
 
 const ProjectForm = (session: Session) => {
-  const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const form = useRef<HTMLFormElement>(null);
 
+  const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
+    if(!form.current) throw new Error("Form is not defined");
+
+    event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
     try {
@@ -14,13 +17,17 @@ const ProjectForm = (session: Session) => {
         method: "POST",
         body: JSON.stringify(Object.fromEntries(formData)),
       });
+
+      if(res.ok) {
+        form.current.reset();
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <form onSubmit={handleProjectSubmission} className="flex flex-col gap-2">
+    <form onSubmit={handleProjectSubmission} className="flex flex-col gap-2" ref={form}>
       <input
         type="text"
         name="name"
