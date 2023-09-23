@@ -30,6 +30,6 @@ const ProjectIndex = async () => {
       {session && <ProjectForm {...session} />}
     </div>
   );
-}
+};
 
 export default ProjectIndex;

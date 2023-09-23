@@ -12,7 +12,7 @@ async function getProject(id: string): Promise<Prisma.Project | null> {
   return project;
 }
 
-const Page = async ({params} : {params: {id: string}}) => {
+const Page = async ({ params }: { params: { id: string } }) => {
   const project = await getProject(params.id);
 
   return (
@@ -23,7 +23,7 @@ const Page = async ({params} : {params: {id: string}}) => {
         <Project project={project} />
       )}
     </Suspense>
-  )
+  );
 };
 
 export default Page;
