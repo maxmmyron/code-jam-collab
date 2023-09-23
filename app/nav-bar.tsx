@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -7,7 +8,9 @@ const Nav = () => {
   const { data: session, status } = useSession();
   return (
     <nav className="flex justify-between mt-8 px-6 pb-6 border-b-2 black border-black">
-      <h1 className="text-2xl">CodeJam</h1>
+      <Link href="/" className="text-2xl">
+        CodeJam
+      </Link>
       <div>
         {status === "authenticated" ? (
           // If the status is authenticated we can assume the session is not null and a username exists.
@@ -15,7 +18,7 @@ const Nav = () => {
             title={session?.user?.name as string}
             routes={[
               {
-                route: "#",
+                route: "projects",
                 title: "Projects",
               },
               {

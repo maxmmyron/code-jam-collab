@@ -1,26 +1,28 @@
-"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import NextAuthSessionProvider from "./providers/sessionProvider";
 import Nav from "./nav-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { SessionProvider } from "next-auth/react";
-import { ReactNode } from "react";
+export const metadata = {
+  title: "Code Jam",
+  description: "Goated Website",
+};
 
-export interface AuthContextProps {
-  children: ReactNode;
-}
-
-export default function AuthContext({ children }: AuthContextProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html>
-      <SessionProvider>
-        <body className="mx-16">
+    <html lang="en">
+      <body className={inter.className}>
+        <NextAuthSessionProvider>
           <Nav />
           {children}
-        </body>
-      </SessionProvider>
+        </NextAuthSessionProvider>
+      </body>
     </html>
   );
 }
