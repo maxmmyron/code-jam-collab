@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Prisma from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 type Props = {
   project: Prisma.Project;
@@ -9,6 +10,7 @@ type Props = {
 
 const JoinButton = (props: Props) => {
   const { project, authUser } = props;
+  const router = useRouter();
   const handleJoin = async (e) => {
     e.preventDefault();
     try {
@@ -22,6 +24,7 @@ const JoinButton = (props: Props) => {
       });
       if (!response.ok)
         throw new Error(`${response.status}: (${response.statusText})`);
+      router.refresh();
     } catch (e) {
       console.error(e);
     }
