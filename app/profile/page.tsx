@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import prisma from "../../lib/prisma";
 import authOptions from "../api/auth/[...nextauth]/options";
+import Project from "../components/Project";
 
 const Profile = async () => {
 
@@ -31,9 +32,7 @@ const Profile = async () => {
         <h2 className="text-2xl">Owned Projects</h2>
         <ul>
           {user?.ownedProjects.map((project) => (
-            <li key={project.id}>
-              <p>{project.name}</p>
-            </li>
+            <Project project={project} key={project.id} />
           ))}
         </ul>
       </section>
@@ -42,9 +41,7 @@ const Profile = async () => {
         <h2 className="text-2xl">Joined Projects</h2>
         <ul>
           {user?.joinedProjects.map((project) => (
-            <li key={project.id}>
-              <p>{project?.Project?.name}</p>
-            </li>
+            <Project project={project.Project!} key={project.id} />
           ))}
         </ul>
       </section>
