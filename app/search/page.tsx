@@ -26,7 +26,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="mx-20 flex flex-col mt-20">
+    <div className="mx-20 flex flex-col mt-24">
       <h1 className="text-4xl font-bold">Search</h1>
       <form className="mt-4" onSubmit={fetchSearchedProjects}>
         <input
