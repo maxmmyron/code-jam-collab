@@ -16,15 +16,18 @@ const getUser = async (email: string): Promise<Prisma.User | null> => {
   return user;
 };
 
-const getProject = async (
-  id: string,
-): Promise<(Prisma.Project & { owner: Prisma.User }) | null> => {
+const getProject = async (id: string) => {
   const project = await prisma.project.findUnique({
     where: {
       id,
     },
     include: {
       owner: true,
+      members: {
+        include: {
+          User: true,
+        },
+      },
     },
   });
 
