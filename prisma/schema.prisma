@@ -11,6 +11,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
