@@ -22,7 +22,7 @@ const Nav = () => {
                 title: "Projects",
               },
               {
-                route: "#",
+                route: "/profile",
                 title: "Profile",
               },
               {
