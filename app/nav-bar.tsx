@@ -23,8 +23,8 @@ const Nav = () => {
               },
               {
                 route: "/search",
-                title: "Search"
-              }
+                title: "Search",
+              },
               {
                 route: "/profile",
                 title: "Profile",
