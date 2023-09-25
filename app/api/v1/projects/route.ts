@@ -5,18 +5,18 @@ import authOptions from "../../auth/[...nextauth]/options";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams.get("search")
+  const searchParams = request.nextUrl.searchParams.get("search");
   try {
-    if(!searchParams) throw new Error("Bad query")
+    if (!searchParams) throw new Error("Bad query");
     const projects = await prisma.project.findMany({
       where: {
         name: {
           contains: searchParams,
-        }
-      }
-    })
+        },
+      },
+    });
     return NextResponse.json({ projects }, { status: 201 });
-  } catch(e) {
+  } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
