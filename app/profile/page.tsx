@@ -11,12 +11,43 @@ const Profile = async () => {
   let user = await prisma.user.findUnique({
     where: {
       email: session.user.email
+    },
+    include: {
+      ownedProjects: true,
+      joinedProjects: {
+        include: {
+          Project: true,
+        }
+      }
     }
   });
 
   return (
     <section className="mt-8 mx-8">
       <h1 className="text-4xl">{user?.name}</h1>
+      <hr className="my-6" />
+
+      <section className="mb-6">
+        <h2 className="text-2xl">Owned Projects</h2>
+        <ul>
+          {user?.ownedProjects.map((project) => (
+            <li key={project.id}>
+              <p>{project.name}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mb-6">
+        <h2 className="text-2xl">Joined Projects</h2>
+        <ul>
+          {user?.joinedProjects.map((project) => (
+            <li key={project.id}>
+              <p>{project?.Project?.name}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 };
