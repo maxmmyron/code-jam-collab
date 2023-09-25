@@ -9,7 +9,7 @@ const ProjectForm = (session: Session) => {
   const form = useRef<HTMLFormElement>(null);
 
   const handleProjectSubmission = async (event: FormEvent<HTMLFormElement>) => {
-    if(!form.current) throw new Error("Form is not defined");
+    if (!form.current) throw new Error("Form is not defined");
 
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -21,7 +21,7 @@ const ProjectForm = (session: Session) => {
       });
 
       // if result is OK, then reset form and refresh page
-      if(res.ok) {
+      if (res.ok) {
         // FIXME: two courses of action here:
         // 1. reset form and use progressive enhancement to display the project returned from the fetch
         // 2. refresh page and just rerender
@@ -35,7 +35,11 @@ const ProjectForm = (session: Session) => {
   };
 
   return (
-    <form onSubmit={handleProjectSubmission} className="flex flex-col gap-2" ref={form}>
+    <form
+      onSubmit={handleProjectSubmission}
+      className="flex flex-col gap-2"
+      ref={form}
+    >
       <input
         type="text"
         name="name"

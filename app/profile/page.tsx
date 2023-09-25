@@ -4,23 +4,23 @@ import authOptions from "../api/auth/[...nextauth]/options";
 import Project from "../components/Project";
 
 const Profile = async () => {
-
   const session = await getServerSession(authOptions);
 
-  if(!session || !session.user || !session.user.email) throw new Error("User not found");
+  if (!session || !session.user || !session.user.email)
+    throw new Error("User not found");
 
   let user = await prisma.user.findUnique({
     where: {
-      email: session.user.email
+      email: session.user.email,
     },
     include: {
       ownedProjects: true,
       joinedProjects: {
         include: {
           Project: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   return (

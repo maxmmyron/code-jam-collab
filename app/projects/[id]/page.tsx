@@ -36,7 +36,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   if (!project) throw new Error("Project not found");
 
-  if(!session?.user?.email) throw new Error("User not found");
+  if (!session?.user?.email) throw new Error("User not found");
   const authUser = await getUser(session?.user?.email);
 
   return project === null ? (
