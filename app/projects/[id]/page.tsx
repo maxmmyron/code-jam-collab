@@ -1,11 +1,11 @@
 import Prisma from "@prisma/client";
-import prisma from "../../../lib/prisma";
 import DeleteButton from "../../components/DeleteButton";
 import EditButton from "../../components/EditButton";
 import authOptions from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import prisma from "../../../lib/prisma";
 
-const getUser = async (email: string): Promise<Prisma.User | null> => {
+const getUserByEmail = async (email: string) => {
   const user = await prisma.user.findUnique({
     where: {
       email: email,
@@ -15,29 +15,19 @@ const getUser = async (email: string): Promise<Prisma.User | null> => {
   return user;
 };
 
-const getProject = async (
-  id: string,
-): Promise<(Prisma.Project & { owner: Prisma.User }) | null> => {
-  const project = await prisma.project.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      owner: true,
-    },
-  });
-
-  return project;
-};
-
 const Page = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
-  const project = await getProject(params.id);
 
-  if (!project) throw new Error("Project not found");
+  const projectData = await fetch(`${process.env.URL}/api/v1/projects/${params.id}`).then((res) => res.json());
+  const project = projectData.project as Prisma.Project;
 
-  if (!session?.user?.email) throw new Error("User not found");
-  const authUser = await getUser(session?.user?.email);
+  const ownerData = await fetch(`${process.env.URL}/api/v1/users/${project.ownerId}`).then((res) => res.json());
+  const owner = ownerData.user as Prisma.User;
+
+  let authUser: Prisma.User | null = null;
+  if(session?.user?.email) {
+    authUser = await getUserByEmail(session.user.email);
+  }
 
   return project === null ? (
     <div>Project not found</div>
@@ -46,9 +36,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <header className="flex justify-between items-center">
         <div>
           <h1 className="text-4xl">{project.name}</h1>
-          <p>by {project.owner.name}</p>
+          <p>by {owner.name}</p>
         </div>
-        {project.owner.id === authUser?.id && (
+        {authUser && (owner.id === authUser.id) && (
           <div className="flex gap-2">
             <DeleteButton id={params.id} projectName={project.name} />
             <EditButton id={params.id} project={project} />
