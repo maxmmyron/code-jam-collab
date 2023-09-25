@@ -35,8 +35,6 @@ export async function POST(request: Request) {
       data: {
         name: name,
         description: description,
-        createdAt: Date.now().toString(),
-        updatedAt: Date.now().toString(),
         owner: { connect: { email: session?.user?.email as string } },
       },
     });

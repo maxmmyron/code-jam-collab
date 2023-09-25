@@ -27,7 +27,6 @@ export async function PUT(request: Request, { params }) {
       data: {
         name: name,
         description: description,
-        updatedAt: Date.now().toString(),
       },
     });
 
