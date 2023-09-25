@@ -25,6 +25,7 @@ const getProject = async (
     },
     include: {
       owner: true,
+      members: true,
     },
   });
 
@@ -39,7 +40,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   if (!session?.user?.email) throw new Error("User not found");
   const authUser = await getUser(session?.user?.email);
-
+  console.log(project.members);
   return project === null ? (
     <div>Project not found</div>
   ) : (
