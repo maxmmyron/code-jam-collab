@@ -20,9 +20,9 @@ const ProjectIndex = async () => {
   const session = await getServerSession(authOptions);
   const projects = await getProjects(session);
   return (
-    <div className="mt-24">
-      <h1 className="ml-8 mt-8 text-4xl">Projects</h1>
-      <div className="flex justify-between mt-8">
+    <div className="mt-24 mx-20">
+      <h1 className=" text-4xl font-bold">Projects</h1>
+      <div className="flex flex-wrap mb-8 mt-8 flex-row">
         {projects?.map((project) => {
           return <Project key={project.id} project={project} />;
         })}
