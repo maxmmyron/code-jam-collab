@@ -23,10 +23,10 @@ const Nav = () => {
               },
               {
                 route: "/search",
-                title: "Search",
-              },
+                title: "Search"
+              }
               {
-                route: "#",
+                route: "/profile",
                 title: "Profile",
               },
               {
