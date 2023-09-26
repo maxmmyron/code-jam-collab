@@ -4,20 +4,22 @@ import DeleteButton from "../../components/DeleteButton";
 import EditButton from "../../components/EditButton";
 import authOptions from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import JoinButton from "../../components/JoinButton";
 
-const getUser = async (email: string): Promise<Prisma.User | null> => {
+const getUser = async (email: string) => {
   const user = await prisma.user.findUnique({
     where: {
       email: email,
+    },
+    include: {
+      joinedProjects: true,
     },
   });
 
   return user;
 };
 
-const getProject = async (
-  id: string,
-): Promise<(Prisma.Project & { owner: Prisma.User }) | null> => {
+const getProject = async (id: string) => {
   const project = await prisma.project.findUnique({
     where: {
       id,
@@ -28,6 +30,13 @@ const getProject = async (
   });
 
   return project;
+};
+
+const userNotInProject = (user, project) => {
+  for (const proj of user.joinedProjects) {
+    if (proj.projectId == project.id) return false;
+  }
+  return true;
 };
 
 const Page = async ({ params }: { params: { id: string } }) => {
@@ -48,11 +57,15 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <h1 className="text-4xl">{project.name}</h1>
           <p>by {project.owner.name}</p>
         </div>
-        {project.owner.id === authUser?.id && (
+        {project.owner.id === authUser?.id ? (
           <div className="flex gap-2">
             <DeleteButton id={params.id} projectName={project.name} />
             <EditButton id={params.id} project={project} />
           </div>
+        ) : (
+          userNotInProject(authUser, project) && (
+            <JoinButton authUser={authUser} project={project} />
+          )
         )}
       </header>
       <hr className="my-6" />
