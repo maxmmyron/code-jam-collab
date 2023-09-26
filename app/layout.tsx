@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "./providers/sessionProvider";
 import Nav from "./nav-bar";
+import Toasts from "./components/Toasts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <NextAuthSessionProvider>
           <Nav />
           {children}
+          <Toasts />
         </NextAuthSessionProvider>
       </body>
     </html>
