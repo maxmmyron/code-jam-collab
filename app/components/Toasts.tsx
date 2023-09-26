@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
 import { toastStore } from "../utils/zustand";
 
 const Toasts = () => {
-
   const store = toastStore();
 
   return (
@@ -21,6 +20,6 @@ const Toasts = () => {
       <button onClick={() => store.addToast("hello")}>Toast</button>
     </>
   );
-}
+};
 
 export default Toasts;
