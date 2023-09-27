@@ -13,7 +13,10 @@ export async function GET(request: Request, { params }) {
   } catch (e) {
     // return 400 Bad Request for any zod errors
     if (e instanceof z.ZodError) {
-      return NextResponse.json({ error: `Bad payload: ${e.issues}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Bad payload: ${e.issues}` },
+        { status: 400 },
+      );
     }
 
     // return 500 Internal Server Error for any other error
@@ -50,9 +53,9 @@ export async function GET(request: Request, { params }) {
 
   // return 200 OK with project
   return NextResponse.json(project, {
-    status: 200
+    status: 200,
   });
-};
+}
 
 export async function DELETE(request: Request, { params }) {
   let id: string;
@@ -64,7 +67,10 @@ export async function DELETE(request: Request, { params }) {
   } catch (e) {
     // return 400 Bad Request for any zod errors
     if (e instanceof z.ZodError) {
-      return NextResponse.json({ error: `Bad payload: ${e.issues}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Bad payload: ${e.issues}` },
+        { status: 400 },
+      );
     }
 
     // return 500 Internal Server Error for any other error
@@ -88,7 +94,7 @@ export async function DELETE(request: Request, { params }) {
 
 export async function PUT(request: Request, { params }) {
   let id: string;
-  let body: { name: string, description: string };
+  let body: { name: string; description: string };
 
   // validate request
   try {
@@ -105,7 +111,10 @@ export async function PUT(request: Request, { params }) {
   } catch (e) {
     // return 400 Bad Request for any zod errors
     if (e instanceof z.ZodError) {
-      return NextResponse.json({ error: `Bad payload: ${e.issues}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Bad payload: ${e.issues}` },
+        { status: 400 },
+      );
     }
 
     // return 500 Internal Server Error for any other error

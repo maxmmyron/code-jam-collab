@@ -18,14 +18,18 @@ const getUserByEmail = async (email: string) => {
 const Page = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
 
-  const projectData = await fetch(`${process.env.URL}/api/v1/projects/${params.id}`).then((res) => res.json());
+  const projectData = await fetch(
+    `${process.env.URL}/api/v1/projects/${params.id}`,
+  ).then((res) => res.json());
   const project = projectData.project as Prisma.Project;
 
-  const ownerData = await fetch(`${process.env.URL}/api/v1/users/${project.ownerId}`).then((res) => res.json());
+  const ownerData = await fetch(
+    `${process.env.URL}/api/v1/users/${project.ownerId}`,
+  ).then((res) => res.json());
   const owner = ownerData.user as Prisma.User;
 
   let authUser: Prisma.User | null = null;
-  if(session?.user?.email) {
+  if (session?.user?.email) {
     authUser = await getUserByEmail(session.user.email);
   }
 
@@ -38,7 +42,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <h1 className="text-4xl">{project.name}</h1>
           <p>by {owner.name}</p>
         </div>
-        {authUser && (owner.id === authUser.id) && (
+        {authUser && owner.id === authUser.id && (
           <div className="flex gap-2">
             <DeleteButton id={params.id} projectName={project.name} />
             <EditButton id={params.id} project={project} />
