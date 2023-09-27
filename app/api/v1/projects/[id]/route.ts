@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "../../../../../lib/prisma";
 import { z } from "zod";
 import Prisma from "@prisma/client";
-import { ProjectSchema } from "../../../../../prisma/generated/zod";
 
 export async function GET(request: Request, { params }) {
   let paramSchema = z.string().nonempty();
