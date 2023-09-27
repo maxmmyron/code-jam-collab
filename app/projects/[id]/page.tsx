@@ -5,6 +5,7 @@ import EditButton from "../../components/EditButton";
 import authOptions from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import JoinButton from "../../components/JoinButton";
+import LeaveButton from "../../components/LeaveButton";
 
 const getUser = async (email: string) => {
   const user = await prisma.user.findUnique({
@@ -62,10 +63,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
             <DeleteButton id={params.id} projectName={project.name} />
             <EditButton id={params.id} project={project} />
           </div>
+        ) : userNotInProject(authUser, project) ? (
+          <JoinButton authUser={authUser} project={project} />
         ) : (
-          userNotInProject(authUser, project) && (
-            <JoinButton authUser={authUser} project={project} />
-          )
+          <LeaveButton authUser={authUser} project={project} />
         )}
       </header>
       <hr className="my-6" />
