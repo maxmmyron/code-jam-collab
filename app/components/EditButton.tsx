@@ -3,6 +3,7 @@
 import Prisma from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toastStore } from "../utils/zustand";
 
 const EditButton = ({
   id,
@@ -11,6 +12,7 @@ const EditButton = ({
   id: string;
   project: Prisma.Project;
 }) => {
+  const store = toastStore()
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
@@ -24,7 +26,7 @@ const EditButton = ({
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
-
+    
     const body = {
       name,
       description,
@@ -43,6 +45,7 @@ const EditButton = ({
         throw new Error(`${response.status}: (${response.statusText})`);
       else {
         setShowModal(false);
+        store.addToast("Project edited successfully!")
         router.push(`/projects/${id}`);
         router.refresh();
       }

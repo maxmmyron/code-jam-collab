@@ -3,8 +3,10 @@
 import { FormEvent, useRef, useState } from "react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
+import { toastStore } from "../utils/zustand";
 
 const ProjectForm = (session: Session) => {
+  const store = toastStore()
   const router = useRouter();
   const form = useRef<HTMLFormElement>(null);
 
@@ -25,7 +27,7 @@ const ProjectForm = (session: Session) => {
         // FIXME: two courses of action here:
         // 1. reset form and use progressive enhancement to display the project returned from the fetch
         // 2. refresh page and just rerender
-
+        store.addToast("Project created successfully!")
         form.current.reset();
         router.refresh();
       }

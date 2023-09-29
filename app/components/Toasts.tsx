@@ -11,13 +11,12 @@ const Toasts = () => {
         {store.toasts.map((toast) => (
           <div
             key={Number(toast.timeoutID)}
-            className="bg-red-500 rounded-md p-2"
+            className="bg-black text-white rounded-md p-4"
           >
             {toast.message}
           </div>
         ))}
       </div>
-      <button onClick={() => store.addToast("hello")}>Toast</button>
     </>
   );
 };

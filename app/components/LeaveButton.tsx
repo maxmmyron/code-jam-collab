@@ -2,6 +2,7 @@
 import React from "react";
 import Prisma from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { toastStore } from "../utils/zustand";
 
 type Props = {
   authUser: Prisma.User | null;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const LeaveButton = (props: Props) => {
+  const store = toastStore()
   const { authUser, project } = props;
   const router = useRouter();
   const handleLeave = async (e) => {
@@ -16,6 +18,7 @@ const LeaveButton = (props: Props) => {
     const verification = confirm(
       `Are you sure you want to leave project: ${project.name}`,
     );
+    if(!verification) return
     try {
       if (!authUser) return;
       const response = await fetch(`/api/v1/projects/${project.id}/users`, {
@@ -27,6 +30,7 @@ const LeaveButton = (props: Props) => {
       });
       if (!response.ok)
         throw new Error(`${response.status}: (${response.statusText})`);
+      store.addToast("Project left successfully!")
       router.refresh();
     } catch (e) {
       console.error(e);
