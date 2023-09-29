@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="mt-8">Page component</h1>
+      <h1 className="text-center mt-20 text-6xl">W GYATTT RIZZ</h1>
     </>
   );
 }
