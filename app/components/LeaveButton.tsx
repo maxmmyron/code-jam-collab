@@ -10,17 +10,23 @@ type Props = {
 };
 
 const LeaveButton = (props: Props) => {
-  const store = toastStore()
-  const { authUser, project } = props;
+  const store = toastStore();
   const router = useRouter();
+  
+  const { authUser, project } = props;
+  
   const handleLeave = async (e) => {
     e.preventDefault();
+    
     const verification = confirm(
       `Are you sure you want to leave project: ${project.name}`,
     );
+    
     if(!verification) return
+    
     try {
       if (!authUser) return;
+      
       const response = await fetch(`/api/v1/projects/${project.id}/users`, {
         method: "DELETE",
         headers: {
@@ -28,8 +34,11 @@ const LeaveButton = (props: Props) => {
         },
         body: JSON.stringify({ user: authUser }),
       });
-      if (!response.ok)
+      
+      if (!response.ok) {
         throw new Error(`${response.status}: (${response.statusText})`);
+      }
+      
       store.addToast("Project left successfully!")
       router.refresh();
     } catch (e) {
