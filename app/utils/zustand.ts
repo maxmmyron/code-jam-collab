@@ -17,7 +17,7 @@ export const toastStore = create<ToastState>()((set) => ({
         set((state) => ({
           toasts: state.toasts.filter((toast) => toast.timeoutID !== timeoutID),
         }));
-      }, 3000);
+      }, 5000);
 
       return {
         toasts: [
