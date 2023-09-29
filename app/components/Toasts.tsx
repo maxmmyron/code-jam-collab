@@ -19,7 +19,12 @@ const Toasts = () => {
               exit={{ opacity: 0, x: 300 }}
             >
               <p className="text-neutral-700">{toast.message}</p>
-              <button className="w-6 h-6 flex justify-center items-center p-2 rounded bg-neutral-700 text-white" onClick={() => toast.remove()}>✖</button>
+              <button
+                className="w-6 h-6 flex justify-center items-center p-2 rounded bg-neutral-700 text-white"
+                onClick={() => toast.remove()}
+              >
+                ✖
+              </button>
             </motion.article>
           ))}
         </AnimatePresence>

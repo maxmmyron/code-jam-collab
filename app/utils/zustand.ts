@@ -28,10 +28,10 @@ export const toastStore = create<ToastState>()((set) => ({
             remove: () => {
               set((state) => ({
                 toasts: state.toasts.filter(
-                  (toast) => toast.timeoutID !== timeoutID
+                  (toast) => toast.timeoutID !== timeoutID,
                 ),
               }));
-            }
+            },
           },
         ],
       };

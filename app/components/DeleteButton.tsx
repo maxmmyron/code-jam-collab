@@ -9,7 +9,7 @@ type DeleteProps = {
 };
 
 const DeleteButton = (props: DeleteProps) => {
-  const store = toastStore()
+  const store = toastStore();
   const { id, projectName } = props;
   const router = useRouter();
 
@@ -26,7 +26,7 @@ const DeleteButton = (props: DeleteProps) => {
         },
       });
       //TODO Find less cringe way to do this
-      store.addToast("Project deleted successfully!")
+      store.addToast("Project deleted successfully!");
       router.push("/projects");
       router.refresh();
       if (!response.ok)
