@@ -4,6 +4,7 @@ interface ToastState {
   toasts: Array<{
     message: string;
     timeoutID: NodeJS.Timeout;
+    remove: () => void;
   }>;
   addToast: (message: string) => void;
 }
@@ -24,6 +25,13 @@ export const toastStore = create<ToastState>()((set) => ({
           {
             message,
             timeoutID,
+            remove: () => {
+              set((state) => ({
+                toasts: state.toasts.filter(
+                  (toast) => toast.timeoutID !== timeoutID
+                ),
+              }));
+            }
           },
         ],
       };
